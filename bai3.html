@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Hình Ảnh</title>
+    <style>
+        /* Layout utilities (replacement for minimal Bootstrap usage) */
+        body { font-family: Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#222 }
+        .container { max-width:1100px; margin:0 auto; padding:20px }
+        .text-center { text-align:center }
+        .my-4 { margin-top:1.5rem; margin-bottom:1.5rem }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px 0;
+        }
+        .gallery img {
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius:6px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.12);
+            border:1px solid #e6e6e6;
+            background:#f6f6f6;
+        }
+        .gallery img:hover { transform: scale(1.03) }
+
+        h1 { color:#333; text-shadow:1px 1px 2px rgba(0,0,0,0.05); margin:0 }
+
+        /* Modal (pure CSS + JS) */
+        .modal {
+            position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+            background: rgba(0,0,0,0.6); opacity:0; pointer-events:none; transition:opacity .2s ease;
+            z-index:1000;
+        }
+        .modal.open { opacity:1; pointer-events:auto }
+        .modal-dialog { max-width:90vw; max-height:90vh; width:800px; background:transparent; border-radius:8px; overflow:hidden }
+        .modal-content { background:#fff; padding:12px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.3); }
+        .modal-header { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-bottom:1px solid #eee }
+        .modal-header h5 { margin:0; font-size:1rem }
+        .modal-body { padding:12px; text-align:center }
+        .modal-body img { max-width:100%; max-height:75vh; display:block; margin:0 auto }
+
+        .modal-close { position:absolute; right:18px; top:14px; background:transparent; border:0; font-size:30px; line-height:1; cursor:pointer; color:#666 }
+        .modal-close:hover { color:#000 }
+
+        /* small helpers */
+        .img-fluid { max-width:100%; height:auto }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Album Hình Ảnh</h1>
+        <div class="gallery">
+            
+            <img src="/img/1.jpg" 
+                 alt="Ảnh 1" 
+                 class="img-thumbnail" 
+                 data-toggle="modal" 
+                 data-target="#imageModal" 
+                 data-src="/img/1.jpg">
+            
+            <img src="/img/2.jpg" 
+                 alt="Ảnh 2" 
+                 class="img-thumbnail" 
+                 data-toggle="modal" 
+                 data-target="#imageModal" 
+                 data-src="/img/2.jpg">
+            
+            <img src="/img/3.jpg"                  
+                 alt="Ảnh 3" 
+                 class="img-thumbnail" 
+                 data-toggle="modal" 
+                 data-target="#imageModal" 
+                 data-src="/img/3.jpg">
+            
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xem ảnh</h5>
+                    <button class="modal-close" id="modalClose" aria-label="Đóng">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" class="img-fluid" alt="Ảnh lớn"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function(){
+            // Open modal when clicking any thumbnail with data-src
+            function qsAll(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+
+            var modal = document.getElementById('imageModal');
+            var modalImage = document.getElementById('modalImage');
+            var modalClose = document.getElementById('modalClose');
+
+            qsAll('img[data-src]').forEach(function(img){
+                img.addEventListener('click', function(){
+                    var src = img.getAttribute('data-src') || img.src;
+                    modalImage.src = src;
+                    modal.classList.add('open');
+                    modal.setAttribute('aria-hidden','false');
+                });
+            });
+
+            function closeModal(){
+                modal.classList.remove('open');
+                modal.setAttribute('aria-hidden','true');
+                // clear src to release memory
+                setTimeout(function(){ modalImage.src = ''; }, 200);
+            }
+
+            modalClose.addEventListener('click', closeModal);
+
+            // clicking outside content closes
+            modal.addEventListener('click', function(e){
+                if(e.target === modal) closeModal();
+            });
+
+            // Escape key
+            document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+        })();
+    </script>
+</body>
+</html>
