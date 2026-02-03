@@ -1,9 +1,9 @@
-# Album Hình Ảnh (bai3.html)
+# Album Hình Ảnh (index.html)
 
-Trang đơn giản hiển thị gallery ảnh. Khi bấm ảnh thu nhỏ sẽ mở ảnh lớn trong modal (không cần Bootstrap / jQuery).
+Trang đơn giản hiển thị gallery ảnh. Khi bấm ảnh thu nhỏ sẽ mở ảnh lớn trong modal (không Bootstrap / jQuery).
 
 Hướng dẫn nhanh:
-- Mở file `bai3.html` trong trình duyệt (double-click hoặc `Open File`).
+- Mở file `index.html` trong trình duyệt (double-click hoặc `Open File`).
 - Bấm vào ảnh thu nhỏ để xem ảnh lớn.
 - Đóng modal bằng nút ×, click ngoài ảnh, hoặc nhấn `Esc`.
 
